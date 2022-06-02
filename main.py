@@ -113,11 +113,13 @@ def ocr1(img_list):
         if i < 4: #直接将第一行信息跳过
             continue
         x, y = img_list[i + 1].shape
+        x1, y1 = img_list[i + 3].shape
         img1 = img_list[i + 1][0: x // 2, 0: y // 2]
         img2 = img_list[i + 1][x // 2: , 0: y // 2]
+        img3 = img_list[i + 3][10 : x1 - 10, :]
         temp1 = cn_ocr.ocr(img1) #对应第二栏的信息上半部分（名字为2个字还得另外筛选）
         temp2 = cn_ocr.ocr(img2) #对应第二栏信息下半部分
-        number_el = pytesseract.image_to_string(img_list[i + 3],  lang='eng') #对应第四栏的信息
+        number_el = pytesseract.image_to_string(img3,  lang='eng') #对应第四栏的信息
         number = ""
         for x in number_el:
             if x >= '0' and x <= '9':
@@ -166,11 +168,13 @@ def ocr2(img_list):
     for i in range(0, len(img_list) - 1, 3): #步长为3的循环
         index = 0
         x, y = img_list[i].shape
+        x1, y1 = img_list[i + 2].shape
         img1 = img_list[i][0: x // 2, 0: y // 2]
         img2 = img_list[i][x // 2: , 0: y // 2]
+        img3 = img_list[i][10 : x1 - 10, :]
         temp1 = cn_ocr.ocr(img1) #对应第二栏的信息上半部分（名字为2个字还得另外筛选）
         temp2 = cn_ocr.ocr(img2) #对应第二栏信息下半部分
-        number_el = pytesseract.image_to_string(img_list[i + 2],  lang='eng') #对应第三栏的信息
+        number_el = pytesseract.image_to_string(img3,  lang='eng') #对应第三栏的信息
         number = ""
         for x in number_el:
             if x >= '0' and x <= '9':
@@ -233,12 +237,12 @@ def edit_exTable(table_name, sheet_name, list1, list2, list3):
     workbook.close()
 
 #在已有表格中标注并增加已录取(名字在第7栏)
-def mark_exTable(table_name, sheet_name, list1, list2):
+def mark_exTable(table_name, sheet_name, list1, list2, list3):
     workbook = openpyxl.load_workbook(table_name)
     sheet = workbook[sheet_name]
     for i in range(len(list1)):
         for j in range(1000):
-            if sheet.cell(j + 1, 7).value == list1[i]: #找到名字相等的情况
+            if sheet.cell(j + 1, 9).value == list3[i]: #找到名字相等的情况
                 sheet.cell(j + 1, 7).value = list1[i] + "[" + list2[i] + "]"
                 break
     workbook.save(table_name)
@@ -319,8 +323,8 @@ def main():
     edit_exTable(u'接收复试同学已录取情况.xlsx', '录取情况', name_text2, number_text2, admit_text2)
 
     #在已有表格中查找并进行标注（通过名字查找）
-    mark_exTable(u'接收复试通知名单_副本.xlsx', 'YZ_SYTJ_SBMCJ_085046761', name_text1, admit_text1)
-    mark_exTable(u'接收复试通知名单_副本.xlsx', 'YZ_SYTJ_SBMCJ_085046761', name_text2, admit_text2)
+    mark_exTable(u'接收复试通知名单_副本.xlsx', 'YZ_SYTJ_SBMCJ_085046761', name_text1, number_text1, admit_text1)
+    mark_exTable(u'接收复试通知名单_副本.xlsx', 'YZ_SYTJ_SBMCJ_085046761', name_text2, number_text2, admit_text2)
 
 
 if __name__ == '__main__':
