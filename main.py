@@ -236,7 +236,7 @@ def edit_exTable(table_name, sheet_name, list1, list2, list3):
     workbook.save(table_name)
     workbook.close()
 
-#在已有表格中标注并增加已录取(名字在第7栏)
+#在已有表格中标注并增加已录取(身份证在第9栏，名字在第7栏)
 def mark_exTable(table_name, sheet_name, list1, list2, list3):
     workbook = openpyxl.load_workbook(table_name)
     sheet = workbook[sheet_name]
@@ -322,7 +322,7 @@ def main():
     edit_exTable(u'接收复试同学已录取情况.xlsx', '录取情况', name_text1, number_text1, admit_text1)
     edit_exTable(u'接收复试同学已录取情况.xlsx', '录取情况', name_text2, number_text2, admit_text2)
 
-    #在已有表格中查找并进行标注（通过身份证查找）
+    #在已有表格中查找并进行标注（通过身份证号查找）
     mark_exTable(u'接收复试通知名单_副本.xlsx', 'YZ_SYTJ_SBMCJ_085046761', name_text1, number_text1, admit_text1)
     mark_exTable(u'接收复试通知名单_副本.xlsx', 'YZ_SYTJ_SBMCJ_085046761', name_text2, number_text2, admit_text2)
 
