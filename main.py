@@ -242,7 +242,7 @@ def mark_exTable(table_name, sheet_name, list1, list2, list3):
     sheet = workbook[sheet_name]
     for i in range(len(list1)):
         for j in range(1000):
-            if sheet.cell(j + 1, 9).value == list3[i]: #找到名字相等的情况
+            if sheet.cell(j + 1, 9).value == list3[i]: #找到身份证相等的情况
                 sheet.cell(j + 1, 7).value = list1[i] + "[" + list2[i] + "]"
                 break
     workbook.save(table_name)
@@ -322,7 +322,7 @@ def main():
     edit_exTable(u'接收复试同学已录取情况.xlsx', '录取情况', name_text1, number_text1, admit_text1)
     edit_exTable(u'接收复试同学已录取情况.xlsx', '录取情况', name_text2, number_text2, admit_text2)
 
-    #在已有表格中查找并进行标注（通过名字查找）
+    #在已有表格中查找并进行标注（通过身份证查找）
     mark_exTable(u'接收复试通知名单_副本.xlsx', 'YZ_SYTJ_SBMCJ_085046761', name_text1, number_text1, admit_text1)
     mark_exTable(u'接收复试通知名单_副本.xlsx', 'YZ_SYTJ_SBMCJ_085046761', name_text2, number_text2, admit_text2)
 
